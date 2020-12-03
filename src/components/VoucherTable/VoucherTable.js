@@ -13,10 +13,12 @@ export class VoucherTable extends React.Component {
     this.statusBodyTemplate = this.statusBodyTemplate.bind(this);
   }
   renderAction(rowData) {
+    let label = rowData.active === "Active" ? "De-Activate" : "Activate";
     return (
       <div className="flex items-center w-full sm:w-40">
         <Button
-          label={rowData.active === "Active" ? "De-Activate" : "Activate"}
+          onClick={(e) => this.props.actionHandler(e, rowData, label)}
+          label={label}
           className={rowData.active === "Active" ? "bg-red-600 w-full sm:w-40" : "bg-green-500 w-full sm:w-40"}
         />
       </div>
@@ -52,6 +54,7 @@ export class VoucherTable extends React.Component {
     return (
       <div className="datatable-responsive-demo">
         <DataTable
+          emptyMessage="No Vouchers Found"
           className="p-datatable-responsive-demo p-datatable-sm p-datatable-striped"
           value={this.props.vouchers}
           paginator

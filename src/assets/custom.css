@@ -110,3 +110,7 @@
   border-color: rgb(224, 224, 225);
   color: rgba(0, 0, 0, 0.87);
 }
+
+.p-datatable-emptymessage td {
+  text-align: center !important;
+}

@@ -32,6 +32,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.handleSelect = this.handleSelect.bind(this);
+    this.tableActionHandler = this.tableActionHandler.bind(this);
     this.handleAddCategory = this.handleAddCategory.bind(this);
     this.fieldsEmpty = this.fieldsEmpty.bind(this);
     this.state = {
@@ -55,20 +56,7 @@ class App extends React.Component {
         { label: "Clothing", value: "Clothing" },
         { label: "Garden", value: "Garden" },
       ],
-      vouchers: [
-        {
-          name_voucher: "gglowacha0",
-          name_internal: "vestibulum",
-          name_store: "TNXP",
-          description:
-            "Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.\n\nCurabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.\n\nPhasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.",
-          category: "Beauty",
-          active: "Active",
-          image: "http://dummyimage.com/171x234.png/5fa2dd/ffffff",
-          type: 3,
-          creation_date: "26-May-2020",
-        },
-      ],
+      vouchers: [],
       voucherDetails: {
         name_internal: "",
         name_voucher: "",
@@ -87,7 +75,6 @@ class App extends React.Component {
     var files = e.files;
     var file = files[0];
     this.setState({ voucherDetails: { ...this.state.voucherDetails, image: file } });
-    console.log("Upload Handler Files", file);
   }
 
   handleAddCategory() {
@@ -117,6 +104,24 @@ class App extends React.Component {
     } else {
       return true;
     }
+  }
+  tableActionHandler(e, rowData, action) {
+    debugger;
+    let currentVouchers = [...this.state.vouchers];
+    let vc_index = -1;
+    for (let i = 0; i < currentVouchers.length; i++) {
+      if (currentVouchers[i].name_store === rowData.name_store) {
+        vc_index = i;
+        if (action === "De-Activate") {
+          console.log();
+          currentVouchers[vc_index].active = "Not Active";
+        } else if (action === "Activate") {
+          currentVouchers[vc_index].active = "Active";
+        }
+      }
+    }
+    console.log("ACTION", currentVouchers);
+    this.setState({ vouchers: currentVouchers });
   }
 
   render() {
@@ -268,10 +273,28 @@ class App extends React.Component {
             <Button
               onClick={(e) => {
                 if (!this.fieldsEmpty()) {
-                  this.setState({ vouchers: [this.state.voucherDetails, ...this.state.vouchers], visible: false, voucherDetails: {} }, () => {
-                    console.log("vouchers", this.state.vouchers);
-                    this.toast.show({ severity: "success", summary: "Success Message", detail: "Voucher Created" });
-                  });
+                  this.setState(
+                    {
+                      vouchers: [this.state.voucherDetails, ...this.state.vouchers],
+                      visible: false,
+                      voucherDetails: {
+                        name_internal: "",
+                        name_voucher: "",
+                        name_store: "",
+                        description: "",
+                        newCategory: "",
+                        category: "",
+                        active: "Not Active",
+                        image: null,
+                        type: "",
+                        creation_date: new Date().toDateString(),
+                      },
+                    },
+                    () => {
+                      console.log("vouchers", this.state.vouchers);
+                      this.toast.show({ severity: "success", summary: "Success Message", detail: "Voucher Created" });
+                    }
+                  );
                 } else {
                   this.toast.show({ severity: "error", summary: "Error Message", detail: "Please Fill Required Fields" });
                 }
@@ -289,7 +312,7 @@ class App extends React.Component {
               <Button onClick={(e) => this.setState({ visible: true })} className="w-56 bg-buttonGradient" label="Create A New Voucher" icon="pi pi-plus" />
             </div>
           </div>
-          <VoucherTable vouchers={this.state.vouchers} />
+          <VoucherTable vouchers={this.state.vouchers} actionHandler={this.tableActionHandler} />
         </div>
       </React.Fragment>
     );
