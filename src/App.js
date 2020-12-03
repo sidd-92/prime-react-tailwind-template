@@ -7,6 +7,7 @@ import { Panel } from "primereact/panel";
 import { Button } from "primereact/button";
 import { vouchers } from "./services/dataservice";
 import { VoucherTable } from "./components/VoucherTable/VoucherTable";
+import { Toast } from "primereact/toast";
 import { Dropdown } from "primereact/dropdown";
 import { FileUpload } from "primereact/fileupload";
 import { SelectButton } from "primereact/selectbutton";
@@ -27,16 +28,6 @@ const citySelectItems = [
   { label: "Paris", value: "PRS" },
 ];
 
-const voucherTypes = [
-  { label: "1", value: "1" },
-  { label: "2", value: "2" },
-  { label: "3", value: "3" },
-  { label: "4", value: "4" },
-];
-const activateOptions = [
-  { label: "Active", value: "Active" },
-  { label: "Not Active", value: "Not Active" },
-];
 const items_breadcrumb = [
   {
     label: "Vouchers",
@@ -49,10 +40,41 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.handleSelect = this.handleSelect.bind(this);
+    this.handleAddCategory = this.handleAddCategory.bind(this);
     this.state = {
       visible: false,
       file: null,
-      voucherType: "",
+      voucherTypes: [
+        { label: "1", value: "1" },
+        { label: "2", value: "2" },
+        { label: "3", value: "3" },
+        { label: "4", value: "4" },
+      ],
+      activateOptions: [
+        { label: "Active", value: "Active" },
+        { label: "Not Active", value: "Not Active" },
+      ],
+      categories: [
+        { label: "Books", value: "Books" },
+        { label: "Grocery", value: "Grocery" },
+        { label: "Beauty", value: "Beauty" },
+        { label: "Shoes", value: "Shoes" },
+        { label: "Clothing", value: "Clothing" },
+        { label: "Garden", value: "Garden" },
+      ],
+      voucherDetails: {
+        voucherType: "",
+        name_internal: "",
+        name_voucher: "",
+        name_store: "",
+        description: "",
+        newCategory: "",
+        category: "",
+        active: "",
+        image: "",
+        type: "",
+        creation_date: new Date().toDateString(),
+      },
     };
   }
   handleSelect(e) {
@@ -62,15 +84,35 @@ class App extends React.Component {
     console.log("Upload Handler Files", file);
   }
 
+  handleAddCategory() {
+    if (this.state.voucherDetails && this.state.voucherDetails.newCategory !== "") {
+      let categoryToAdd = {
+        label: this.state.voucherDetails.newCategory,
+        value: this.state.voucherDetails.newCategory,
+      };
+      let cate = this.state.categories;
+      cate.push(categoryToAdd);
+      this.setState(
+        {
+          categories: cate,
+          voucherDetails: { ...this.state.voucherDetails, newCategory: "", category: categoryToAdd.value },
+        },
+        () => {
+          this.toast.show({ severity: "success", summary: "Success Message", detail: "Category Added" });
+        }
+      );
+    }
+  }
+
   render() {
-    console.log("VOUCHERS", vouchers);
     return (
       <React.Fragment>
-        <Menubar start={() => <div className="font-bold text-2xl">Voucher Screen</div>} model={items} />
+        <Menubar start={() => <div className="font-bold text-2xl">Referal App</div>} model={items} />
         <BreadCrumb model={items_breadcrumb} home={home} />
-        <Dialog blockScroll maximized={true} header="Create New Voucher" className="w-4/5" visible={this.state.visible} onHide={() => this.setState({ visible: false })}>
+        <Toast ref={(el) => (this.toast = el)} />
+        <Dialog blockScroll maximized={true} header="" className="w-4/5" visible={this.state.visible} onHide={() => this.setState({ visible: false })}>
           <div>
-            <div className="font-bold text-3xl text-center">Create A New Voucher</div>
+            <div className="font-bold text-3xl text-left sm:text-center">Create A New Voucher</div>
 
             <div className="mt-4">
               <div className="mb-4">
@@ -82,10 +124,10 @@ class App extends React.Component {
                       </label>
                       <div className="p-col-12 p-md-10">
                         <Dropdown
-                          value={this.state.voucherType}
-                          options={voucherTypes}
+                          value={this.state.voucherDetails && this.state.voucherDetails.voucherType}
+                          options={this.state.voucherTypes}
                           onChange={(e) => {
-                            this.setState({ voucherType: e.value });
+                            this.setState({ voucherDetails: { ...this.state.voucherDetails, voucherType: e.value } });
                           }}
                           placeholder="Select a Voucher Type"
                         />
@@ -96,7 +138,14 @@ class App extends React.Component {
                         Voucher Name (Internal)
                       </label>
                       <div className="p-col-12 p-md-10">
-                        <InputText id="firstname4" type="text" />
+                        <InputText
+                          id="firstname4"
+                          type="text"
+                          value={this.state.voucherDetails && this.state.voucherDetails.name_internal}
+                          onChange={(e) => {
+                            this.setState({ voucherDetails: { ...this.state.voucherDetails, name_internal: e.value } });
+                          }}
+                        />
                       </div>
                     </div>
                     <div className="p-field p-grid">
@@ -104,7 +153,14 @@ class App extends React.Component {
                         Voucher Name (Store Display)
                       </label>
                       <div className="p-col-12 p-md-10">
-                        <InputText id="lastname4" type="text" />
+                        <InputText
+                          id="lastname4"
+                          type="text"
+                          value={this.state.voucherDetails && this.state.voucherDetails.name_store}
+                          onChange={(e) => {
+                            this.setState({ voucherDetails: { ...this.state.voucherDetails, name_store: e.value } });
+                          }}
+                        />
                       </div>
                     </div>
                     <div className="p-field p-grid">
@@ -112,7 +168,14 @@ class App extends React.Component {
                         Voucher Name (Voucher Display)
                       </label>
                       <div className="p-col-12 p-md-10">
-                        <InputText id="lastname4" type="text" />
+                        <InputText
+                          id="lastname4"
+                          type="text"
+                          value={this.state.voucherDetails && this.state.voucherDetails.name_voucher}
+                          onChange={(e) => {
+                            this.setState({ voucherDetails: { ...this.state.voucherDetails, name_voucher: e.value } });
+                          }}
+                        />
                       </div>
                     </div>
                   </div>
@@ -126,7 +189,13 @@ class App extends React.Component {
                         Voucher Description
                       </label>
                       <div className="p-col-12 p-md-10">
-                        <InputTextarea rows={5} cols={30} value={this.state.value} onChange={(e) => this.setState({ value: e.target.value })} autoResize />
+                        <InputTextarea
+                          rows={5}
+                          cols={30}
+                          value={this.state.voucherDetails && this.state.voucherDetails.description}
+                          onChange={(e) => this.setState({ voucherDetails: { ...this.state.voucherDetails, description: e.target.value } })}
+                          autoResize
+                        />
                       </div>
                     </div>
                     <div className="p-field p-grid">
@@ -135,18 +204,24 @@ class App extends React.Component {
                       </label>
                       <div className="p-col-12 p-lg-6">
                         <Dropdown
-                          value={this.state.city}
-                          options={citySelectItems}
+                          value={this.state.voucherDetails && this.state.voucherDetails.category}
+                          options={this.state.categories}
                           onChange={(e) => {
-                            this.setState({ city: e.value });
+                            this.setState({ voucherDetails: { ...this.state.voucherDetails, category: e.value } });
                           }}
-                          placeholder="Select a City"
+                          placeholder="Select a Category"
                         />
                       </div>
                       <div className="p-col-12 p-lg-4 mt-2 sm:mt-0">
                         <div className="p-inputgroup">
-                          <InputText placeholder="Add A New Category" />
-                          <Button label="Add New Category" />
+                          <InputText
+                            placeholder="Add A New Category"
+                            value={this.state.voucherDetails && this.state.voucherDetails.newCategory}
+                            onChange={(e) => {
+                              this.setState({ voucherDetails: { ...this.state.voucherDetails, newCategory: e.target.value } });
+                            }}
+                          />
+                          <Button label="Add Category" className="text-sm" onClick={this.handleAddCategory} />
                         </div>
                       </div>
                     </div>
@@ -155,7 +230,7 @@ class App extends React.Component {
                         Voucher Is
                       </label>
                       <div className="p-col-12 p-md-2">
-                        <SelectButton value={this.state.active} options={activateOptions} onChange={(e) => this.setState({ active: e.value })}></SelectButton>
+                        <SelectButton value={this.state.active} options={this.state.activateOptions} onChange={(e) => this.setState({ active: e.value })}></SelectButton>
                       </div>
                     </div>
                     <div className="p-field p-grid">
@@ -170,12 +245,12 @@ class App extends React.Component {
                 </Panel>
               </div>
             </div>
-            <Button onClick={(e) => this.setState({ visible: false })} className=" bg-gray-500" label="Back" icon="pi pi-arrow-left" />
+            <Button onClick={(e) => this.setState({ visible: false })} className="w-full sm:w-auto mb-2 sm:mb-0 bg-gray-500" label="Back" icon="pi pi-arrow-left" />
             <Button
               onClick={(e) => {
                 console.log("STATE", this.state.file);
               }}
-              className=" bg-buttonGradient ml-3"
+              className="w-full sm:w-auto bg-buttonGradient ml-0 sm:ml-3"
               label="Create New Voucher"
               icon="pi pi-plus"
             />

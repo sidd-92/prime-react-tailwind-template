@@ -67,7 +67,7 @@ export class VoucherTable extends React.Component {
                 <div className="hidden sm:block">{rowData.name_store}</div>
                 <div className="flex sm:hidden">
                   <div className="font-bold mr-8">Name</div>
-                  <div>{rowData.name}</div>
+                  <div>{rowData.name_store}</div>
                 </div>
               </React.Fragment>
             )}
@@ -96,7 +96,7 @@ export class VoucherTable extends React.Component {
                 <div className="hidden sm:block">{rowData.creation_date}</div>
                 <div className="flex sm:hidden bg-gray-200 py-1">
                   <div className="font-bold mr-10">Date Created</div>
-                  <div>{rowData.creationDate}</div>
+                  <div>{rowData.creation_date}</div>
                 </div>
               </React.Fragment>
             )}
