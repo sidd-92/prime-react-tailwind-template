@@ -3,7 +3,6 @@ import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
-import { InputSwitch } from "primereact/inputswitch";
 export class VoucherTable extends React.Component {
   constructor(props) {
     super(props);
