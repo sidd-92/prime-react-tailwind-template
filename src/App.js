@@ -5,7 +5,7 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Panel } from "primereact/panel";
 import { Button } from "primereact/button";
-import { vouchers } from "./services/dataservice";
+//import { vouchers } from "./services/dataservice";
 import { VoucherTable } from "./components/VoucherTable/VoucherTable";
 import { Toast } from "primereact/toast";
 import { Dropdown } from "primereact/dropdown";
@@ -18,14 +18,6 @@ const items = [
     icon: "pi pi-fw pi-file",
     className: "ml-6 border border-gray-200 transition duration-200 hover:bg-gray-300 rounded-md",
   },
-];
-
-const citySelectItems = [
-  { label: "New York", value: "NY" },
-  { label: "Rome", value: "RM" },
-  { label: "London", value: "LDN" },
-  { label: "Istanbul", value: "IST" },
-  { label: "Paris", value: "PRS" },
 ];
 
 const items_breadcrumb = [
@@ -41,6 +33,7 @@ class App extends React.Component {
     super(props);
     this.handleSelect = this.handleSelect.bind(this);
     this.handleAddCategory = this.handleAddCategory.bind(this);
+    this.fieldsEmpty = this.fieldsEmpty.bind(this);
     this.state = {
       visible: false,
       file: null,
@@ -62,16 +55,29 @@ class App extends React.Component {
         { label: "Clothing", value: "Clothing" },
         { label: "Garden", value: "Garden" },
       ],
+      vouchers: [
+        {
+          name_voucher: "gglowacha0",
+          name_internal: "vestibulum",
+          name_store: "TNXP",
+          description:
+            "Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.\n\nCurabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.\n\nPhasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.",
+          category: "Beauty",
+          active: "Active",
+          image: "http://dummyimage.com/171x234.png/5fa2dd/ffffff",
+          type: 3,
+          creation_date: "26-May-2020",
+        },
+      ],
       voucherDetails: {
-        voucherType: "",
         name_internal: "",
         name_voucher: "",
         name_store: "",
         description: "",
         newCategory: "",
         category: "",
-        active: "",
-        image: "",
+        active: "Not Active",
+        image: null,
         type: "",
         creation_date: new Date().toDateString(),
       },
@@ -80,7 +86,7 @@ class App extends React.Component {
   handleSelect(e) {
     var files = e.files;
     var file = files[0];
-    this.setState({ file: file });
+    this.setState({ voucherDetails: { ...this.state.voucherDetails, image: file } });
     console.log("Upload Handler Files", file);
   }
 
@@ -104,6 +110,15 @@ class App extends React.Component {
     }
   }
 
+  fieldsEmpty() {
+    let vd = this.state.voucherDetails;
+    if (vd.name_internal !== "" && vd.name_store !== "" && vd.name_voucher !== "" && vd.type !== "" && vd.category !== "") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -120,14 +135,14 @@ class App extends React.Component {
                   <div className="p-fluid">
                     <div className="p-field p-grid">
                       <label htmlFor="firstname4" className="p-col-12 p-md-2">
-                        Voucher Type
+                        Voucher Type *
                       </label>
                       <div className="p-col-12 p-md-10">
                         <Dropdown
-                          value={this.state.voucherDetails && this.state.voucherDetails.voucherType}
+                          value={this.state.voucherDetails && this.state.voucherDetails.type}
                           options={this.state.voucherTypes}
                           onChange={(e) => {
-                            this.setState({ voucherDetails: { ...this.state.voucherDetails, voucherType: e.value } });
+                            this.setState({ voucherDetails: { ...this.state.voucherDetails, type: e.value } });
                           }}
                           placeholder="Select a Voucher Type"
                         />
@@ -135,7 +150,7 @@ class App extends React.Component {
                     </div>
                     <div className="p-field p-grid">
                       <label htmlFor="firstname4" className="p-col-12 p-md-2">
-                        Voucher Name (Internal)
+                        Voucher Name (Internal) *
                       </label>
                       <div className="p-col-12 p-md-10">
                         <InputText
@@ -143,14 +158,14 @@ class App extends React.Component {
                           type="text"
                           value={this.state.voucherDetails && this.state.voucherDetails.name_internal}
                           onChange={(e) => {
-                            this.setState({ voucherDetails: { ...this.state.voucherDetails, name_internal: e.value } });
+                            this.setState({ voucherDetails: { ...this.state.voucherDetails, name_internal: e.target.value } });
                           }}
                         />
                       </div>
                     </div>
                     <div className="p-field p-grid">
                       <label htmlFor="lastname4" className="p-col-12 p-md-2">
-                        Voucher Name (Store Display)
+                        Voucher Name (Store Display) *
                       </label>
                       <div className="p-col-12 p-md-10">
                         <InputText
@@ -158,14 +173,14 @@ class App extends React.Component {
                           type="text"
                           value={this.state.voucherDetails && this.state.voucherDetails.name_store}
                           onChange={(e) => {
-                            this.setState({ voucherDetails: { ...this.state.voucherDetails, name_store: e.value } });
+                            this.setState({ voucherDetails: { ...this.state.voucherDetails, name_store: e.target.value } });
                           }}
                         />
                       </div>
                     </div>
                     <div className="p-field p-grid">
                       <label htmlFor="lastname4" className="p-col-12 p-md-2">
-                        Voucher Name (Voucher Display)
+                        Voucher Name (Voucher Display) *
                       </label>
                       <div className="p-col-12 p-md-10">
                         <InputText
@@ -173,7 +188,7 @@ class App extends React.Component {
                           type="text"
                           value={this.state.voucherDetails && this.state.voucherDetails.name_voucher}
                           onChange={(e) => {
-                            this.setState({ voucherDetails: { ...this.state.voucherDetails, name_voucher: e.value } });
+                            this.setState({ voucherDetails: { ...this.state.voucherDetails, name_voucher: e.target.value } });
                           }}
                         />
                       </div>
@@ -200,7 +215,7 @@ class App extends React.Component {
                     </div>
                     <div className="p-field p-grid">
                       <label htmlFor="lastname4" className="p-col-12 p-md-2">
-                        Voucher Category
+                        Voucher Category *
                       </label>
                       <div className="p-col-12 p-lg-6">
                         <Dropdown
@@ -230,7 +245,11 @@ class App extends React.Component {
                         Voucher Is
                       </label>
                       <div className="p-col-12 p-md-2">
-                        <SelectButton value={this.state.active} options={this.state.activateOptions} onChange={(e) => this.setState({ active: e.value })}></SelectButton>
+                        <SelectButton
+                          value={this.state.voucherDetails && this.state.voucherDetails.active}
+                          options={this.state.activateOptions}
+                          onChange={(e) => this.setState({ voucherDetails: { ...this.state.voucherDetails, active: e.value } })}
+                        ></SelectButton>
                       </div>
                     </div>
                     <div className="p-field p-grid">
@@ -248,7 +267,14 @@ class App extends React.Component {
             <Button onClick={(e) => this.setState({ visible: false })} className="w-full sm:w-auto mb-2 sm:mb-0 bg-gray-500" label="Back" icon="pi pi-arrow-left" />
             <Button
               onClick={(e) => {
-                console.log("STATE", this.state.file);
+                if (!this.fieldsEmpty()) {
+                  this.setState({ vouchers: [this.state.voucherDetails, ...this.state.vouchers], visible: false, voucherDetails: {} }, () => {
+                    console.log("vouchers", this.state.vouchers);
+                    this.toast.show({ severity: "success", summary: "Success Message", detail: "Voucher Created" });
+                  });
+                } else {
+                  this.toast.show({ severity: "error", summary: "Error Message", detail: "Please Fill Required Fields" });
+                }
               }}
               className="w-full sm:w-auto bg-buttonGradient ml-0 sm:ml-3"
               label="Create New Voucher"
@@ -263,7 +289,7 @@ class App extends React.Component {
               <Button onClick={(e) => this.setState({ visible: true })} className="w-56 bg-buttonGradient" label="Create A New Voucher" icon="pi pi-plus" />
             </div>
           </div>
-          <VoucherTable vouchers={vouchers} />
+          <VoucherTable vouchers={this.state.vouchers} />
         </div>
       </React.Fragment>
     );
