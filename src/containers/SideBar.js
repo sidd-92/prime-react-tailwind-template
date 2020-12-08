@@ -11,15 +11,15 @@ const SideBar = () => {
         <NavigationLink href="#" name="Sales" sideNav={true} />
         <NavigationLink href="#" name="Home" sideNav={true} />
       </div>
-      <div className="w-full bg-teal-300 fixed z-10 top-0 left-0 overflow-x-hidden block sm:hidden">
+      <div className="w-full bg-gradient-to-r from-green-200 via-green-400 to-green-500 fixed z-10 top-0 left-0 overflow-x-hidden block sm:hidden">
         <div className="flex items-center justify-between px-3">
           <div onClick={() => setOpenBurger(!openBurger)}>
             <i className="pi pi-bars"></i>
           </div>
-          <div className="text-black font-bold text-lg">CRM</div>
+          <div className="text-white font-bold text-lg">CRM</div>
         </div>
         {openBurger ? (
-          <div className="relative overflow-hidden h-56 bg-teal-500">
+          <div className="relative overflow-hidden h-56 bg-gradient-to-r from-green-200 via-green-400 to-green-500">
             <div className="absolute w-full pt-2">
               <NavigationLink href="#" name="About" sideNav={true} />
               <NavigationLink href="#" name="People" sideNav={true} />

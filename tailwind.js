@@ -20,6 +20,9 @@ module.exports = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
+      cardColor: "#EEEEEE",
+      cardColor2: "#F7EBEC",
+      textColor1: "#667EEA",
       button: "#ff416c",
       button2: "#ff4b2b",
       black: "#000",
