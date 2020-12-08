@@ -27,10 +27,16 @@
   position: relative;
 }
 
-.p-dropdown-panel {
-  width: 10rem !important;
-  right: 38px !important;
-  left: unset !important;
+.p-dropdown-panel.customDropdown {
+  width: 8rem !important;
+}
+
+.p-dropdown-label.p-inputtext {
+  color: #ff416c;
+  font-size: 18px;
+}
+.p-dropdown .p-dropdown-label.p-placeholder {
+  color: #ff416c;
 }
 
 .sidenav {
