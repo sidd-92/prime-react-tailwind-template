@@ -18,6 +18,16 @@ import limeBand from "../assets/images/lime-band.jpeg";
 import miniSpeakers from "../assets/images/mini-speakers.jpeg";
 import paintedPhoneCase from "../assets/images/painted-phone-case.jpeg";
 import pinkBand from "../assets/images/pink-band.jpeg";
+import pinkPurse from "../assets/images/pink-purse.jpeg";
+import purpleBand from "../assets/images/purple-band.jpeg";
+import purpleGemstoneNecklace from "../assets/images/purple-gemstone-necklace.jpeg";
+import purpleTShirt from "../assets/images/purple-t-shirt.jpeg";
+import shoes from "../assets/images/shoes.jpeg";
+import sneakers from "../assets/images/sneakers.jpeg";
+import tealTShirt from "../assets/images/teal-t-shirt.jpeg";
+import yellowEarbuds from "../assets/images/yellow-earbuds.jpeg";
+import yogaMat from "../assets/images/yoga-mat.jpeg";
+import yogaSet from "../assets/images/yoga-set.jpeg";
 
 export const data = [
   {
@@ -608,7 +618,7 @@ export const data = [
     code: "r23fwf2w3",
     name: "Pink Purse",
     description: "Product Description",
-    image: "pink-purse.jpg",
+    image: pinkPurse,
     price: 110,
     category: "Accessories",
     quantity: 0,
@@ -640,7 +650,7 @@ export const data = [
     code: "pxpzczo23",
     name: "Purple Band",
     description: "Product Description",
-    image: "purple-band.jpg",
+    image: purpleBand,
     price: 79,
     category: "Fitness",
     quantity: 6,
@@ -663,7 +673,7 @@ export const data = [
     code: "2c42cb5cb",
     name: "Purple Gemstone Necklace",
     description: "Product Description",
-    image: "purple-gemstone-necklace.jpg",
+    image: purpleGemstoneNecklace,
     price: 45,
     category: "Accessories",
     quantity: 62,
@@ -695,7 +705,7 @@ export const data = [
     code: "5k43kkk23",
     name: "Purple T-Shirt",
     description: "Product Description",
-    image: "purple-t-shirt.jpg",
+    image: purpleTShirt,
     price: 49,
     category: "Clothing",
     quantity: 2,
@@ -718,7 +728,7 @@ export const data = [
     code: "lm2tny2k4",
     name: "Shoes",
     description: "Product Description",
-    image: "shoes.jpg",
+    image: shoes,
     price: 64,
     category: "Clothing",
     quantity: 0,
@@ -731,7 +741,7 @@ export const data = [
     code: "nbm5mv45n",
     name: "Sneakers",
     description: "Product Description",
-    image: "sneakers.jpg",
+    image: sneakers,
     price: 78,
     category: "Clothing",
     quantity: 52,
@@ -763,7 +773,7 @@ export const data = [
     code: "zx23zc42c",
     name: "Teal T-Shirt",
     description: "Product Description",
-    image: "teal-t-shirt.jpg",
+    image: tealTShirt,
     price: 49,
     category: "Clothing",
     quantity: 3,
@@ -786,7 +796,7 @@ export const data = [
     code: "acvx872gc",
     name: "Yellow Earbuds",
     description: "Product Description",
-    image: "yellow-earbuds.jpg",
+    image: yellowEarbuds,
     price: 89,
     category: "Electronics",
     quantity: 35,
@@ -818,7 +828,7 @@ export const data = [
     code: "tx125ck42",
     name: "Yoga Mat",
     description: "Product Description",
-    image: "yoga-mat.jpg",
+    image: yogaMat,
     price: 20,
     category: "Fitness",
     quantity: 15,
@@ -831,7 +841,7 @@ export const data = [
     code: "gwuby345v",
     name: "Yoga Set",
     description: "Product Description",
-    image: "yoga-set.jpg",
+    image: yogaSet,
     price: 20,
     category: "Fitness",
     quantity: 25,
