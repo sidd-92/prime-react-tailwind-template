@@ -141,12 +141,16 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <Menubar
+          className="flex xl:hidden"
           model={this.state.items}
           start={<InputText placeholder="Search" type="text" />}
           end={<Button label="Logout" icon="pi pi-power-off" />}
         />
         <div className="flex">
-          <TieredMenu className="sidenavbar" model={this.state.items} />
+          <TieredMenu
+            className="hidden xl:block sidenavbar"
+            model={this.state.items}
+          />
           <main className="p-4">
             <div className="font-bold text-4xl">Admin Panel Dashboard</div>
             <DataTable
