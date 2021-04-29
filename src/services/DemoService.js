@@ -8,6 +8,17 @@ import chakraBracelet from "../assets/images/chakra-bracelet.jpeg";
 import galaxyEarrings from "../assets/images/galaxy-earrings.jpeg";
 import gameController from "../assets/images/game-controller.jpeg";
 import gamingSet from "../assets/images/gaming-set.jpeg";
+import goldPhoneCase from "../assets/images/gold-phone-case.jpeg";
+import greenEarbuds from "../assets/images/green-earbuds.jpeg";
+import greenTShirt from "../assets/images/green-t-shirt.jpeg";
+import greyTShirt from "../assets/images/grey-t-shirt.jpeg";
+import headphones from "../assets/images/headphones.jpeg";
+import lightGreenTShirt from "../assets/images/light-green-t-shirt.jpeg";
+import limeBand from "../assets/images/lime-band.jpeg";
+import miniSpeakers from "../assets/images/mini-speakers.jpeg";
+import paintedPhoneCase from "../assets/images/painted-phone-case.jpeg";
+import pinkBand from "../assets/images/pink-band.jpeg";
+
 export const data = [
   {
     id: "1000",
@@ -351,7 +362,7 @@ export const data = [
     code: "plb34234v",
     name: "Gold Phone Case",
     description: "Product Description",
-    image: "gold-phone-case.jpg",
+    image: goldPhoneCase,
     price: 24,
     category: "Accessories",
     quantity: 0,
@@ -383,7 +394,7 @@ export const data = [
     code: "4920nnc2d",
     name: "Green Earbuds",
     description: "Product Description",
-    image: "green-earbuds.jpg",
+    image: greenEarbuds,
     price: 89,
     category: "Electronics",
     quantity: 23,
@@ -406,7 +417,7 @@ export const data = [
     code: "250vm23cc",
     name: "Green T-Shirt",
     description: "Product Description",
-    image: "green-t-shirt.jpg",
+    image: greenTShirt,
     price: 49,
     category: "Clothing",
     quantity: 74,
@@ -438,7 +449,7 @@ export const data = [
     code: "fldsmn31b",
     name: "Grey T-Shirt",
     description: "Product Description",
-    image: "grey-t-shirt.jpg",
+    image: greyTShirt,
     price: 48,
     category: "Clothing",
     quantity: 0,
@@ -461,7 +472,7 @@ export const data = [
     code: "waas1x2as",
     name: "Headphones",
     description: "Product Description",
-    image: "headphones.jpg",
+    image: headphones,
     price: 175,
     category: "Electronics",
     quantity: 8,
@@ -493,7 +504,7 @@ export const data = [
     code: "vb34btbg5",
     name: "Light Green T-Shirt",
     description: "Product Description",
-    image: "light-green-t-shirt.jpg",
+    image: lightGreenTShirt,
     price: 49,
     category: "Clothing",
     quantity: 34,
@@ -516,7 +527,7 @@ export const data = [
     code: "k8l6j58jl",
     name: "Lime Band",
     description: "Product Description",
-    image: "lime-band.jpg",
+    image: limeBand,
     price: 79,
     category: "Fitness",
     quantity: 12,
@@ -529,7 +540,7 @@ export const data = [
     code: "v435nn85n",
     name: "Mini Speakers",
     description: "Product Description",
-    image: "mini-speakers.jpg",
+    image: miniSpeakers,
     price: 85,
     category: "Clothing",
     quantity: 42,
@@ -552,7 +563,7 @@ export const data = [
     code: "09zx9c0zc",
     name: "Painted Phone Case",
     description: "Product Description",
-    image: "painted-phone-case.jpg",
+    image: paintedPhoneCase,
     price: 56,
     category: "Accessories",
     quantity: 41,
@@ -584,7 +595,7 @@ export const data = [
     code: "mnb5mb2m5",
     name: "Pink Band",
     description: "Product Description",
-    image: "pink-band.jpg",
+    image: pinkBand,
     price: 79,
     category: "Fitness",
     quantity: 63,
