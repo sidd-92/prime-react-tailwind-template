@@ -149,7 +149,14 @@ class App extends React.Component {
           <TieredMenu className="sidenavbar" model={this.state.items} />
           <main className="p-4">
             <div className="font-bold text-4xl">Admin Panel Dashboard</div>
-            <DataTable value={this.state.products}>
+            <DataTable
+              value={this.state.products}
+              paginator
+              paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+              rows={10}
+              rowsPerPageOptions={[10, 20, 50]}
+            >
               <Column field="code" header="Code"></Column>
               <Column
                 field="image"
