@@ -23,12 +23,18 @@ function App() {
           />
           <Route
             exact
+            path="/"
+            name="Login"
+            render={(props) => <Login {...props} />}
+          />
+          <Route
+            exact
             path="/signup"
             name="Sign Up"
             render={(props) => <SignUp {...props} />}
           />
           <Route
-            path="/"
+            path="/home"
             name={"dash"}
             render={(props) => <DefaultLayout {...props} />}
           />

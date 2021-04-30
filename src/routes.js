@@ -1,10 +1,12 @@
 import React from "react";
 //Links
-export const linkMaintain = "/";
+export const linkHome = "/home";
+export const linkPosts = "/home/posts";
 //Links
 
 //Link Names
-export const linkNameMaintain = "Maintain Forecasts";
+export const linkNameHome = "Dashboard";
+export const linkNamePosts = "Posts";
 //Link Names
 
 //Pages
@@ -16,15 +18,15 @@ const Dashboard = React.lazy(() =>
 
 const routes = [
   {
-    path: "/",
+    path: linkHome,
     exact: true,
-    name: "Dashboard",
+    name: linkNameHome,
     component: Dashboard,
   },
   {
-    path: "/posts",
+    path: linkPosts,
     exact: true,
-    name: "Posts",
+    name: linkNamePosts,
     component: Posts,
   },
 ];

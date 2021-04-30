@@ -1,9 +1,24 @@
 import React, { Component } from "react";
 
-class AuthValidator extends Component {
+export default class AuthValidator extends Component {
+  constructor(props) {
+    super(props);
+    this.isValid = this.isValid.bind(this);
+  }
+  isValid = () => {
+    let c = JSON.parse(localStorage.getItem("userinfo"));
+    if (c) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   render() {
-    return <this.props.authorizedcomponent {...this.props} />;
+    if (this.isValid()) {
+      return <this.props.authorizedcomponent {...this.props} />;
+    } else {
+      this.props.history.push("/login");
+      return <div></div>;
+    }
   }
 }
-
-export default AuthValidator;
