@@ -4,6 +4,9 @@ const DefaultLayout = React.lazy(() => import("./containers/DefaultLayout"));
 const Page404 = React.lazy(() => import("./components/views/Page404/Page404"));
 const Login = React.lazy(() => import("./components/views/Login/Login"));
 const SignUp = React.lazy(() => import("./components/views/SignUp/SignUp"));
+const PrivacyPolicy = React.lazy(() =>
+  import("./components/views/PrivacyPolicy/PrivacyPolicy")
+);
 function App() {
   return (
     <Router basename="/">
@@ -14,6 +17,12 @@ function App() {
             path="/404"
             name="Page 404"
             render={(props) => <Page404 {...props} />}
+          />
+          <Route
+            exact
+            path="/privacy-policy"
+            name="Privacy Policy"
+            render={(props) => <PrivacyPolicy {...props} />}
           />
           <Route
             exact
