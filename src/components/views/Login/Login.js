@@ -19,17 +19,27 @@ function Login(props) {
           if (result.data) {
             setLoginSuccess(true);
             localStorage.setItem("userinfo", JSON.stringify(result.data));
-            if (result.data.role === "admin") {
-              props.history.push(linkAdmin);
-            } else {
-              props.history.push(linkHome);
-            }
+            getUser(result.data.id);
           }
         })
         .catch((error) => {
           setLoginSuccess(false);
           setErrorMessage("Login Failed");
         });
+    }
+  };
+
+  const getUser = (id) => {
+    if (id) {
+      AuthService.getUserById(id).then((result) => {
+        if (result.data) {
+          if (result.data.role === "admin") {
+            props.history.push(linkAdmin);
+          } else {
+            props.history.push(linkHome);
+          }
+        }
+      });
     }
   };
 
@@ -52,6 +62,7 @@ function Login(props) {
             value={password}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
+            feedback={false}
           />
         </div>
 
