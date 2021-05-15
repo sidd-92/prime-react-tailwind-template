@@ -1,5 +1,6 @@
 import React from "react";
 //Links
+export const linkLogin = "/login";
 export const linkHome = "/home";
 export const linkPosts = "/home/posts";
 export const linkAdmin = "/home/admin";

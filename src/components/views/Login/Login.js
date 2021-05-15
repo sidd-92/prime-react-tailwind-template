@@ -3,7 +3,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Password } from "primereact/password";
 import AuthService from "../../../services/AuthService";
-import { linkAdmin, linkHome, linkNameHome } from "../../../routes";
+import { linkAdmin, linkHome } from "../../../routes";
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,12 +14,15 @@ function Login(props) {
     if (email === "" || password === "") {
       setErrorMessage("Email / Password Fields Are Empty");
     } else {
-      AuthService.login({ username: email, password: password })
+      AuthService.login({ email: email, password: password })
         .then((result) => {
           if (result.data) {
             setLoginSuccess(true);
-            localStorage.setItem("userinfo", JSON.stringify(result.data));
-            getUser(result.data.id);
+            localStorage.setItem(
+              "userinfo",
+              JSON.stringify({ token: result.data["token"] })
+            );
+            getUser(result.data["token"]);
           }
         })
         .catch((error) => {
@@ -29,18 +32,17 @@ function Login(props) {
     }
   };
 
-  const getUser = (id) => {
-    if (id) {
-      AuthService.getUserById(id).then((result) => {
-        if (result.data) {
-          if (result.data.role === "admin") {
-            props.history.push(linkAdmin);
-          } else {
-            props.history.push(linkHome);
-          }
+  const getUser = (token) => {
+    AuthService.decode({ token: token }).then((result) => {
+      if (result.data.user) {
+        console.log("RESULT", result.data);
+        if (result.data.user.isAdmin) {
+          props.history.push(linkAdmin);
+        } else {
+          props.history.push(linkHome);
         }
-      });
-    }
+      }
+    });
   };
 
   return (

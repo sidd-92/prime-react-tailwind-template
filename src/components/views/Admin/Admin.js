@@ -1,14 +1,37 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FileUpload } from "primereact/fileupload";
 import { Toast } from "primereact/toast";
-import { Button } from "primereact/button";
 import axios from "axios";
-const Admin = (props) => {
+import { useHistory } from "react-router";
+import { linkHome, linkLogin } from "../../../routes";
+import AuthService from "../../../services/AuthService";
+const Admin = () => {
   const [profileImgURL, setProfileImgURL] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [isUploaded, setIsUploaded] = useState(false);
   const toast = useRef(null);
   const uploadRef = useRef(null);
+  let history = useHistory();
+
+  useEffect(() => {
+    let c = localStorage.getItem("userinfo");
+    if (c) {
+      AuthService.decode(JSON.parse(c))
+        .then((result) => {
+          if (result.data.user) {
+            if (result.data.user.isAdmin) {
+            } else {
+              history.push(linkHome);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log("No User Found");
+          history.push(linkHome);
+        });
+    } else {
+      history.push(linkLogin);
+    }
+  });
 
   const uploadedHandler = (event) => {
     setLoading(true);
@@ -18,7 +41,7 @@ const Admin = (props) => {
       form.append("avatar", file);
     });
     axios
-      .post("http://localhost:3001/profile", form)
+      .post("https://auth-api-express.onrender.com/profile", form)
       .then((response) => {
         setProfileImgURL(response.data.url);
         uploadRef.current.clear();

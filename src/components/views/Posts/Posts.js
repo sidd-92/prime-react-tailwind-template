@@ -1,5 +1,4 @@
 import React from "react";
-import masaslaPavSmall from "../../../assets/images/masala-pav-small.png";
 import masaslaPavBig from "../../../assets/images/masala-pav-big.png";
 function Posts() {
   return (
