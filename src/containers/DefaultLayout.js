@@ -7,7 +7,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import AuthService from "../services/AuthService";
-import routes, { linkLogin } from "../routes";
+import routes, { linkAdmin, linkLogin } from "../routes";
 import AuthValidator from "../components/AuthValidator/AuthValidator";
 import AdminValidator from "../components/AdminValidator/AdminValidator";
 import Header from "./Headers";
@@ -43,7 +43,7 @@ function DefaultLayout() {
 
   return (
     <div>
-      <Header />
+      <Header isAdmin={isAdmin} />
       <main>
         <React.Suspense fallback={<div>Loading...</div>}>
           <Switch>

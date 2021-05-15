@@ -12,7 +12,7 @@ const Admin = () => {
   const uploadRef = useRef(null);
   let history = useHistory();
 
-  /* useEffect(() => {
+  useEffect(() => {
     let c = localStorage.getItem("userinfo");
     if (c) {
       AuthService.decode(JSON.parse(c))
@@ -31,7 +31,7 @@ const Admin = () => {
     } else {
       history.push(linkLogin);
     }
-  }, [history]); */
+  }, [history]);
 
   const uploadedHandler = (event) => {
     setLoading(true);
