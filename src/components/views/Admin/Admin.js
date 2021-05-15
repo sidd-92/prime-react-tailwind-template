@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FileUpload } from "primereact/fileupload";
 import { Toast } from "primereact/toast";
-import axios from "axios";
 import { useHistory } from "react-router";
 import { linkHome, linkLogin } from "../../../routes";
 import AuthService from "../../../services/AuthService";
+import UploadService from "../../../services/UploadService";
 const Admin = () => {
   const [profileImgURL, setProfileImgURL] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -12,7 +12,7 @@ const Admin = () => {
   const uploadRef = useRef(null);
   let history = useHistory();
 
-  useEffect(() => {
+  /* useEffect(() => {
     let c = localStorage.getItem("userinfo");
     if (c) {
       AuthService.decode(JSON.parse(c))
@@ -31,7 +31,7 @@ const Admin = () => {
     } else {
       history.push(linkLogin);
     }
-  }, [history]);
+  }, [history]); */
 
   const uploadedHandler = (event) => {
     setLoading(true);
@@ -40,8 +40,7 @@ const Admin = () => {
     event.files.forEach((file) => {
       form.append("avatar", file);
     });
-    axios
-      .post("https://auth-api-express.onrender.com/profile", form)
+    UploadService.upload(form)
       .then((response) => {
         setProfileImgURL(response.data.url);
         uploadRef.current.clear();

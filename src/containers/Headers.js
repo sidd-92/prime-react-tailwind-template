@@ -1,9 +1,11 @@
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import { linkHome, linkNamePosts, linkPosts } from "../routes";
+import { NavLink, useLocation, useHistory } from "react-router-dom";
+import { linkHome, linkLogin, linkNamePosts, linkPosts } from "../routes";
+import { Button } from "primereact/button";
 
 function Header() {
   let location = useLocation();
+  let history = useHistory();
   return (
     <nav className="navbar">
       <NavLink
@@ -22,14 +24,14 @@ function Header() {
       >
         {linkNamePosts}
       </NavLink>
-      <NavLink
-        to={"/review"}
-        className={
-          location.pathname === "/review" ? "nav-link make-active" : "nav-link"
-        }
-      >
-        Review & Release Order
-      </NavLink>
+      <Button
+        label="Logout"
+        className="ml-auto p-button-danger"
+        onClick={() => {
+          localStorage.clear();
+          history.push(linkLogin);
+        }}
+      />
     </nav>
   );
 }
