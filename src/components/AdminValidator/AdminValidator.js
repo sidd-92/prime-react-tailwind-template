@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import AuthService from "../../services/AuthService";
-import { useHistory } from "react-router-dom";
+import React from "react";
 function AdminValidator(props) {
   return <props.authorizedcomponent {...props} />;
 }

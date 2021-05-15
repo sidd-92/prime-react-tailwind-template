@@ -31,7 +31,7 @@ const Admin = () => {
     } else {
       history.push(linkLogin);
     }
-  });
+  }, [history]);
 
   const uploadedHandler = (event) => {
     setLoading(true);
