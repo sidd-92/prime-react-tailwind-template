@@ -17,6 +17,10 @@ function Dashboard() {
               history.push(linkHome);
             }
           }
+          let error = document.getElementById("errorDiv12399");
+          if (error) {
+            error.remove();
+          }
         })
         .catch((error) => {
           console.log("No User Found");

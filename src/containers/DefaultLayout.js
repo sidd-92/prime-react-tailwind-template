@@ -31,13 +31,17 @@ function DefaultLayout() {
             setisAdmin(false);
           }
         }
+        let error = document.getElementById("errorDiv12399");
+        if (error) {
+          error.remove();
+        }
       })
       .catch((err) => {
-        setShowModal(true);
-        setTimeout(() => {
+        //setShowModal(true);
+        /* setTimeout(() => {
           history.replace(linkLogin);
           localStorage.clear();
-        }, 2000);
+        }, 2000); */
       });
   }, []);
 

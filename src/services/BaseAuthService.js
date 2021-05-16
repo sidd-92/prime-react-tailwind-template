@@ -1,9 +1,9 @@
 import axios from "axios";
-
 import React from "react";
 import ReactDOM from "react-dom";
 import BaseApiService from "./BaseApiService";
-const DEFAULT_API_PATH = "https://auth-api-express.onrender.com/api";
+
+const DEFAULT_AUTH_PATH = "/user";
 
 class AuthService extends BaseApiService {
   constructor(props) {
@@ -36,9 +36,12 @@ class AuthService extends BaseApiService {
         const originalReq = error.config;
         if (typeof window === "undefined") {
         } else {
+          let url = _this.getDefaultApiUrl();
+          let authHeader = _this.getAuthHeader();
+
           console.log("API Response ERROR...");
           if (
-            (error.response.status === 401 || error.response.status === 403) &&
+            error.response.status === 401 &&
             error.config &&
             !error.config.___retry
           ) {
@@ -46,21 +49,20 @@ class AuthService extends BaseApiService {
             console.log("AA>> auth error...");
             return new Promise((resolve, reject) => {
               console.log("AA>> trying renew auth...");
-              var userInfo = JSON.parse(localStorage.getItem("userinfo"));
-              let res = fetch(DEFAULT_API_PATH + "/user/token", {
+              var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+              let res = fetch(url + DEFAULT_AUTH_PATH + "/token", {
                 method: "post",
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ token: userInfo.refresh }),
+                body: JSON.stringify({ token: userInfo.token }),
               })
                 .then((res) => res.json())
                 .then((res) => {
-                  console.log("REULT", res);
-                  var userinfo = JSON.parse(localStorage.getItem("userinfo"));
+                  var userinfo = JSON.parse(localStorage.getItem("userInfo"));
                   if (res.token) {
                     userinfo.token = res.token;
-                    localStorage.setItem("userinfo", JSON.stringify(userinfo));
+                    localStorage.setItem("userInfo", JSON.stringify(userinfo));
                   }
                   var newHeaders = {
                     Authorization: "Bearer " + userinfo.token,
@@ -74,8 +76,7 @@ class AuthService extends BaseApiService {
                   return _this.getAxios()(originalReq);
                 })
                 .catch((err) => {
-                  console.log(JSON.stringify(err, null, 3));
-                  console.log("FAIled");
+                  console.log(err);
                   return Promise.reject(err);
                   //return reject(err);
                   //throw Error(err);
@@ -84,7 +85,7 @@ class AuthService extends BaseApiService {
             });
           } else if (
             //failed after refresh...
-            (error.response.status === 401 || error.response.status === 403) &&
+            error.response.status === 401 &&
             error.config &&
             error.config.___retry
           ) {
@@ -100,13 +101,65 @@ class AuthService extends BaseApiService {
       }
     );
   }
-  login(data) {
-    return axios.post(`${DEFAULT_API_PATH}/user/login`, data);
+  /* 
+  login(credentials) {
+    let url = this.getDefaultApiUrl();
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization:
+        "Basic " + btoa(credentials.username + ":" + credentials.password),
+    };
+    return axios.post(url + DEFAULT_AUTH_PATH + "/token", null, {
+      headers: headers,
+    });
   }
 
-  decode(token) {
-    return axios.post(`${DEFAULT_API_PATH}/user/decode`, token);
+  forgotPasswordGenerateOTP(credentials) {
+    let url = this.getDefaultApiUrl();
+    return axios.post(
+      url +
+        DEFAULT_AUTH_PATH +
+        "/user/reset/password/otp?username=" +
+        credentials.username
+    );
   }
+
+  forgotPasswordResetPassword(credentials) {
+    let url = this.getDefaultApiUrl();
+    const body = {
+      username: credentials.username,
+      password: credentials.password,
+      otp: credentials.otp,
+    };
+    return axios.post(url + DEFAULT_AUTH_PATH + "/user/reset/password", body);
+  }
+
+  refresh(credentials) {
+    return axios.post("token/renew", credentials);
+  }
+
+  getUserInfo() {
+    return JSON.parse(localStorage.getItem("userInfo"));
+  }
+
+  getAuthHeader() {
+    return {
+      headers: { Authorization: "Bearer " + this.getUserInfo().accessToken },
+    };
+  }
+
+  getRefreshCredentials() {
+    return {
+      username: this.getUserInfo().username,
+      refreshToken: this.getUserInfo().refreshtoken,
+    };
+  }
+
+  logOut() {
+    localStorage.removeItem("userInfo");
+    return;
+  } */
 }
 
 export default new AuthService();

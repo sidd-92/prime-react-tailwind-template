@@ -20,7 +20,10 @@ function Login(props) {
             setLoginSuccess(true);
             localStorage.setItem(
               "userinfo",
-              JSON.stringify({ token: result.data["token"] })
+              JSON.stringify({
+                token: result.data["token"],
+                refresh: result.data["refreshToken"],
+              })
             );
             getUser(result.data["token"]);
           }
@@ -42,14 +45,18 @@ function Login(props) {
           props.history.push(linkHome);
         }
       }
+      let error = document.getElementById("errorDiv12399");
+      if (error) {
+        error.remove();
+      }
     });
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="max-w-6xl xxl:max-w-4xl mx-auto">
       <div className="bg-gray-200 h-screen flex flex-col items-center justify-center">
         <div className="text-3xl font-black text-button2 mb-4">Login</div>
-        <div className="w-6/12 mb-4">
+        <div className="w-10/12 xxl:w-6/12 mb-4">
           <InputText
             className="w-full"
             value={email}
@@ -58,7 +65,7 @@ function Login(props) {
           />
         </div>
 
-        <div className="w-6/12">
+        <div className="w-10/12 xxl:w-6/12">
           <Password
             className="w-full"
             value={password}
@@ -68,9 +75,9 @@ function Login(props) {
           />
         </div>
 
-        <div className="w-6/12">
+        <div className="w-10/12 xxl:w-6/12">
           <Button
-            label="Save"
+            label="Login"
             onClick={() => login()}
             className="p-button-success w-full mt-6"
           />

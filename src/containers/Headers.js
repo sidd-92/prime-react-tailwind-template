@@ -41,6 +41,10 @@ function Header(props) {
         label="Logout"
         className="ml-4 p-button-danger"
         onClick={() => {
+          let error = document.getElementById("errorDiv12399");
+          if (error) {
+            error.remove();
+          }
           localStorage.clear();
           history.push(linkLogin);
         }}
