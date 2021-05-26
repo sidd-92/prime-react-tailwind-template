@@ -7,6 +7,7 @@ import AuthService from "../../../services/AuthService";
 import UploadService from "../../../services/UploadService";
 import { TabView, TabPanel } from "primereact/tabview";
 import { InputText } from "primereact/inputtext";
+import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import RecipieService from "../../../services/RecipieService";
 const Admin = () => {
@@ -16,6 +17,31 @@ const Admin = () => {
   const toast = useRef(null);
   const uploadRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [instruction, setInstruction] = useState([]);
+  const [forPreparing, handleForPreparing] = useState("");
+
+  /**
+   * FINAL RECIPIE ARRAY MUST LOOK LIKE
+   *
+   * [
+   *  recipieName: "",
+   *  recipieDescription:"",
+   *  ingredients: [
+   *    {
+   *      _id: "",
+   *      name: "",
+   *      for: ""
+   *    }],
+   *  instructions: [
+   *    {
+   *      for: "",
+   *      stepDetail: "",
+   *      stepNumber: ""
+   *    }]
+   * ]
+   *
+   */
+
   let history = useHistory();
 
   useEffect(() => {
@@ -84,6 +110,32 @@ const Admin = () => {
     }
   };
 
+  const renderDynamicForm = () => {
+    return (
+      <>
+        <div className="font-bold mb-2">Step 1</div>
+        <div className="flex items-center">
+          <InputTextarea
+            autoResize
+            rows={3}
+            cols={50}
+            value={imageCaption}
+            onChange={(e) => setImageCaption(e.target.value)}
+          />
+
+          <div className="ml-2">
+            <Button
+              label=""
+              className="bg-red-600 border-none"
+              icon="pi pi-minus"
+              onClick={() => handleSubmit()}
+            />
+          </div>
+        </div>
+      </>
+    );
+  };
+
   let saveFormData = () => {
     /**
        * {
@@ -120,18 +172,53 @@ const Admin = () => {
       });
   };
 
-  let ui = ["React", "Vue", "NgRx"];
+  const addNextInstruction = () => {
+    //Here I want to add the next instruction with correct Step number and blank text field.
+    //Admin Can Delete the Text Field and should be updated in the state
+  };
+
   return (
     <div className="m-2">
       <Toast ref={toast}></Toast>
       <div className="text-3xl font-extrabold">Admin</div>
-      <div>{ui}</div>
       <TabView
         activeIndex={activeIndex}
         onTabChange={(e) => setActiveIndex(e.index)}
       >
         <TabPanel header="Add Posts">
           <div>
+            <div className="font-bold mt-4 mb-2">Add Recipie Steps</div>
+            <div>
+              <div className="font-bold mt-4 mb-2">For Preparing:</div>
+              <div>
+                <InputText
+                  value={forPreparing}
+                  onChange={(e) => handleForPreparing(e.target.value)}
+                />
+              </div>
+              <div className="bg-gray-200 p-2 mt-2">
+                {renderDynamicForm()}
+                <Button
+                  label="Add Next Instruction"
+                  className="bg-yellow-600 border-none mt-6"
+                  icon="pi pi-plus"
+                  onClick={addNextInstruction}
+                />
+              </div>
+            </div>
+          </div>
+        </TabPanel>
+        <TabPanel header="Manage Posts">
+          <div>All Posts</div>
+        </TabPanel>
+      </TabView>
+    </div>
+  );
+};
+
+export default Admin;
+
+/* <div>
             <div className="font-bold mt-4 mb-2">Image Caption (Required)*</div>
             <div>
               <InputText
@@ -175,14 +262,4 @@ const Admin = () => {
               icon="pi pi-check"
               onClick={() => handleSubmit()}
             />
-          </div>
-        </TabPanel>
-        <TabPanel header="Manage Posts">
-          <div>All Posts</div>
-        </TabPanel>
-      </TabView>
-    </div>
-  );
-};
-
-export default Admin;
+          </div> */
