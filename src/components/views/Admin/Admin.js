@@ -8,6 +8,7 @@ import UploadService from "../../../services/UploadService";
 import { TabView, TabPanel } from "primereact/tabview";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import RecipieService from "../../../services/RecipieService";
 const Admin = () => {
   const [profileImgURL, setProfileImgURL] = useState(null);
   const [imageCaption, setImageCaption] = useState("");
@@ -49,6 +50,7 @@ const Admin = () => {
     event.files.forEach((file) => {
       form.append("avatar", file);
     });
+    console.log("FIORM", form);
     UploadService.upload(form)
       .then((response) => {
         setProfileImgURL(response.data.url);
@@ -82,10 +84,48 @@ const Admin = () => {
     }
   };
 
+  let saveFormData = () => {
+    /**
+       * {
+    "imageId":"60a7a9f44da4e50023abeee8",
+    "recipieName": "Bun Dosa",
+    "recipieDescription":"How To Make Bun Dosa",
+    "recipieTotalTime": "20 Min",
+    "recipieIngredients": ["Dosa Batter", "Oil", "Salt"]
+}
+       */
+    RecipieService.addRecipie({
+      imageId: "60a7a9f44da4e50023abeee8",
+      recipieName: "Bun Dosa",
+      recipieDescription: "How To Make Bun Dosa",
+      recipieTotalTime: "20 Min",
+      recipieIngredients: ["Dosa Batter", "Oil", "Salt"],
+    })
+      .then((result) => {
+        if (result.data) {
+          toast.current.show({
+            severity: "success",
+            summary: "Success",
+            detail: "Recipie Added",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("Error", err);
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Server Error",
+        });
+      });
+  };
+
+  let ui = ["React", "Vue", "NgRx"];
   return (
     <div className="m-2">
       <Toast ref={toast}></Toast>
       <div className="text-3xl font-extrabold">Admin</div>
+      <div>{ui}</div>
       <TabView
         activeIndex={activeIndex}
         onTabChange={(e) => setActiveIndex(e.index)}
@@ -106,6 +146,7 @@ const Admin = () => {
                 mode="basic"
                 name="avatar"
                 accept="image/*"
+                auto={true}
                 disabled={loading}
                 chooseLabel="Choose A File"
                 customUpload
